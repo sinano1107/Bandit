@@ -40,4 +40,29 @@ public class WebRequest : MonoBehaviour
             }
         }
     }
+
+    public void FetchVertices()
+    {
+        StartCoroutine(Method());
+
+        static IEnumerator Method()
+        {
+            UnityWebRequest request = UnityWebRequest.Get("http://127.0.0.1:8000/vertices");
+
+            yield return request.SendWebRequest();
+
+            if (request.result is UnityWebRequest.Result.Success)
+            {
+                int n = int.Parse(request.downloadHandler.text);
+
+                Debug.Log($"n = {n}");
+
+                // 頂点数nのランダム多角形を生成
+                GameObject.Find("RandomPolygon")
+                    .GetComponent<RandomPolygon>()
+                    .Generate(n);
+            }
+            else Debug.Log(request.result);
+        }
+    }
 }
