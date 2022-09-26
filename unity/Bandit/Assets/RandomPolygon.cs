@@ -9,20 +9,36 @@ public class RandomPolygon : MonoBehaviour
 {
     const float range = 1.0f;
     const int maxTry = 50;
-    private readonly List<Vector3> vertices = new();
-    private readonly List<int> triangles = new();
-    private readonly List<(int a, int b)> sides = new();
+    private List<Vector3> vertices = new();
+    private List<int> triangles = new();
+    private List<(int a, int b)> sides = new();
 
-    private void Start()
+    // 任意の頂点数のランダムな多角形を生成する
+    public void Generate(int n)
     {
-        Appearance();
-        Division();
-        Increase();
-        Increase();
-        Increase();
-        Increase();
-        Increase();
+        if (n < 3) throw new Exception("頂点数が3以下の多角形は作れません");
+
+        // リセット
+        PolygonReset();
+
+        // 生成
+        for (int i = 3; i <= n; i++)
+        {
+            if (i == 3) Appearance();
+            else if (i == 4) Division();
+            else Increase();
+        }
+
+        // 表示
         Display();
+    }
+
+    // (0)リセット
+    private void PolygonReset()
+    {
+        vertices = new List<Vector3> { };
+        triangles = new List<int> { };
+        sides = new List<(int a, int b)> { };
     }
 
     // (1)出現
