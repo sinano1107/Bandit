@@ -2,7 +2,7 @@ from fastapi import FastAPI
 from agent import Agent
 
 app = FastAPI()
-agent = Agent()
+agent = Agent(action_size=20)
 prevAction = 0
 
 
@@ -14,7 +14,7 @@ def read_root():
 def start():
     global agent
     global prevAction
-    agent = Agent()
+    agent = Agent(action_size=20)
     prevAction = int(agent.get_action())
     return prevAction + 5
 
